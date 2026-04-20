@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gino Tuesta | Visual Biology & Conservation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #FFFFFF;
+            --text-color: #0A192F;
+            --accent-color: #2D5A27; 
+            --subtle-text: #5A677A;
+            --light-bg: #F9FAFB;
+            --font-main: 'Montserrat', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-main); color: var(--text-color); background: var(--bg-color); line-height: 1.6; }
+        
+        header { padding: 25px 8%; display: flex; justify-content: space-between; align-items: center; background: white; border-bottom: 1px solid #EEE; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 1.6rem; font-family: var(--font-serif); text-transform: uppercase; letter-spacing: 2px; line-height: 0.9; cursor: pointer; }
+        .logo span { display: block; font-family: var(--font-main); font-size: 0.6rem; letter-spacing: 4px; font-weight: 300; color: var(--subtle-text); margin-top: 5px; }
+        
+        .nav-links { display: flex; gap: 20px; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+        .nav-links a { text-decoration: none; color: var(--text-color); transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent-color); }
+
+        .hero { height: 60vh; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('img/hero-amazon.jpg') center/cover no-repeat; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+        .hero h1 { font-size: 4rem; font-family: var(--font-serif); font-weight: 400; letter-spacing: -1px; }
+        .hero p { font-size: 0.8rem; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 10px; opacity: 0.9; }
+
+        .about-section { padding: 80px 8%; background: var(--light-bg); display: flex; align-items: center; gap: 60px; }
+        .about-img img { width: 100%; max-width: 400px; border: 15px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .about-text { flex: 1; }
+        .about-text h2 { font-size: 2.5rem; font-family: var(--font-serif); margin-bottom: 20px; }
+        .about-text p { margin-bottom: 20px; font-size: 1rem; color: var(--subtle-text); text-align: justify; }
+
+        .intro-text-block { padding: 60px 15%; text-align: center; background: white; border-top: 1px solid #f0f0f0; }
+        .intro-text-block h3 { font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 15px; }
+        .intro-text-block p { color: var(--subtle-text); font-size: 1.1rem; font-style: italic; }
+
+        .section-title { padding: 40px 8% 20px; text-align: center; }
+        .section-title h2 { font-family: var(--font-serif); font-size: 2.2rem; }
+        .section-title p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--subtle-text); }
+
+        .gallery-grid { padding: 20px 8% 80px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+        .folder-card { position: relative; height: 450px; overflow: hidden; cursor: pointer; background: #000; }
+        .folder-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: 1.2s; }
+        .folder-card:hover img { transform: scale(1.08); opacity: 0.6; }
+        .folder-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; background: rgba(0,0,0,0.2); }
+        .folder-overlay h3 { font-family: var(--font-serif); font-size: 2rem; margin-bottom: 10px; }
+        .folder-overlay span { font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; border-bottom: 1px solid white; padding-bottom: 5px; }
+
+        #full-view { display: none; padding: 60px 8%; }
+        .back-btn { cursor: pointer; margin-bottom: 40px; font-size: 0.7rem; letter-spacing: 2px; font-weight: 600; display: inline-block; }
+        .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .photo-item { height: 350px; background: #EEE; overflow: hidden; cursor: pointer; }
+        .photo-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .photo-item:hover img { opacity: 0.8; }
+
+        .modal { display: none; position: fixed; z-index: 2000; inset: 0; background: rgba(0,0,0,0.98); flex-direction: column; align-items: center; justify-content: center; padding: 40px; }
+        .modal-content { max-width: 90%; max-height: 80vh; display: flex; flex-direction: column; align-items: center; position: relative; }
+        .modal-img { max-width: 100%; max-height: 75vh; object-fit: contain; }
+        .modal-caption { color: #EEE; font-size: 0.9rem; text-align: center; margin-top: 20px; font-family: var(--font-main); font-weight: 300; max-width: 800px; }
+        .close-modal { position: absolute; top: -30px; right: 0; color: white; font-size: 2.5rem; cursor: pointer; }
+
+        footer { padding: 60px 8%; background: #0A192F; color: white; text-align: center; }
+        .copy { margin-top: 20px; font-size: 0.65rem; opacity: 0.4; letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            .gallery-grid, .photo-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+            .about-section { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="goHome()">Gino Tuesta <span>Visual Biology</span></div>
+        <nav class="nav-links">
+            <a href="#projects">Projects</a>
+            <a href="mailto:ginoanthony29@gmail.com">Contact</a>
+        </nav>
+    </header>
+
+    <main id="home-view">
+        <section class="hero">
+            <div>
+                <p>Conservation Photography</p>
+                <h1>The Amazon Lens</h1>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <div class="about-img"><img src="img/gino-profile.jpg" alt="Gino Tuesta"></div>
+            <div class="about-text">
+                <h2>Science through the lens</h2>
+                <p>As a biologist and photographer, I document the Peruvian Amazon to bridge the gap between scientific research and public awareness. This portfolio showcases my journey documenting the biodiversity that makes our forest unique.</p>
+            </div>
+        </section>
+
+        <section class="intro-text-block">
+            <h3>Visual Documentation & Research</h3>
+            <p>"Each image in this portfolio is part of a long-term documentation process in the Peruvian Amazon, aimed at highlighting the beauty and vulnerability of its native species and ecosystems."</p>
+        </section>
+
+        <div class="section-title" id="projects">
+            <p>Visual Portfolios</p>
+            <h2>Featured Projects</h2>
+        </div>
+
+        <section class="gallery-grid">
+            <div class="folder-card" onclick="openFull('StinglessBees', 'Stingless Bees')">
+                <img src="img/portada-abejas.jpg" alt="Stingless Bees">
+                <div class="folder-overlay"><span>Explore</span><h3>Stingless Bees</h3></div>
+            </div>
+            <div class="folder-card" onclick="openFull('Management', 'The Keepers')">
+                <img src="img/portada-manejo.jpg" alt="Management">
+                <div class="folder-overlay"><span>Explore</span><h3>Bee Management</h3></div>
+            </div>
+            <div class="folder-card" onclick="openFull('Aerial', 'Amazon from Above')">
+                <img src="img/portada-drone.jpg" alt="Aerial">
+                <div class="folder-overlay"><span>Explore</span><h3>Drone Perspectives</h3></div>
+            </div>
+            <div class="folder-card" onclick="openFull('Wildlife', 'Fauna Portraits')">
+                <img src="img/portada-fauna.jpg" alt="Wildlife">
+                <div class="folder-overlay"><span>Explore</span><h3>Amazonian Wildlife</h3></div>
+            </div>
+        </section>
+    </main>
+
+    <section id="full-view">
+        <div class="back-btn" onclick="goHome()">← BACK TO PROJECTS</div>
+        <h2 id="full-title" style="font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 40px;"></h2>
+        <div class="photo-grid" id="photo-grid"></div>
+    </section>
+
+    <div id="photoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <img id="modal-img" class="modal-img" src="">
+            <p id="modal-caption" class="modal-caption"></p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-logo">Gino Tuesta</div>
+        <p class="copy">© 2026 Gino Tuesta. Conservation & Biology Photography.</p>
+    </footer>
+
+    <script>
+        /* ============================================================
+           BASE DE DATOS DE FOTOS (Aquí editas cada una por separado)
+           ============================================================ */
+        
+        const photoDatabase = {
+            'stinglessbees': {
+                'photo-1': { caption: 'Melipona eburnea worker returning to the nest.' },
+                'photo-2': { caption: 'Macro detail of the cerumen entrance.' },
+                'photo-3': { caption: 'Legend for photo 3 of bees.' },
+                'photo-4': { caption: 'Legend for photo 4 of bees.' },
+                'photo-5': { caption: 'Legend for photo 5 of bees.' },
+                'photo-6': { caption: 'Legend for photo 6 of bees.' },
+                'photo-7': { caption: 'Legend for photo 7 of bees.' },
+                'photo-8': { caption: 'Legend for photo 8 of bees.' },
+                'photo-9': { caption: 'Legend for photo 9 of bees.' },
+                'photo-10': { caption: 'Legend for photo 10 of bees.' },
+                'photo-11': { caption: 'Legend for photo 11 of bees.' },
+                'photo-12': { caption: 'Legend for photo 12 of bees.' },
+            },
+            'management': {
+                'photo-1': { caption: 'Sustainable honey harvesting in Allpahuayo Mishana.' },
+                'photo-2': { caption: 'Management of stingless bee technical boxes.' },
+                'photo-3': { caption: 'Legend for photo 3 of management.' },
+                // ... repite hasta 12
+            },
+            'aerial': {
+                'photo-1': { caption: 'The Amazonas River winding through the canopy.' },
+                'photo-2': { caption: 'UAV perspective of primary forest health.' },
+                // ... repite hasta 12
+            },
+            'wildlife': {
+                'photo-1': { caption: 'Jaguar (Panthera onca) documentation.' },
+                'photo-2': { caption: 'Bird diversity monitoring in the rainforest.' },
+                // ... repite hasta 12
+            }
+        };
+
+        /* ============================================================
+           LÓGICA DEL SISTEMA (No tocar a menos que quieras cambiar el funcionamiento)
+           ============================================================ */
+
+        function openFull(category, title) {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('full-view').style.display = 'block';
+            document.getElementById('full-title').innerText = title;
+            const grid = document.getElementById('photo-grid');
+            grid.innerHTML = '';
+
+            const folder = category.toLowerCase();
+            for(let i=1; i<=12; i++) {
+                const photoKey = `photo-${i}`;
+                const imgSrc = `galeria/${folder}/photo-${i}.jpg`;
+                grid.innerHTML += `
+                    <div class="photo-item" onclick="openModal('${imgSrc}', '${folder}', '${photoKey}')">
+                        <img src="${imgSrc}" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+${i}'">
+                    </div>`;
+            }
+            window.scrollTo(0,0);
+        }
+
+        function goHome() {
+            document.getElementById('home-view').style.display = 'block';
+            document.getElementById('full-view').style.display = 'none';
+            window.scrollTo(0,0);
+        }
+
+        function openModal(src, folder, key) {
+            document.getElementById('photoModal').style.display = 'flex';
+            document.getElementById('modal-img').src = src;
+            // Busca la leyenda específica o pone un texto por defecto
+            const entry = photoDatabase[folder][key];
+            document.getElementById('modal-caption').innerText = entry ? entry.caption : "No caption provided.";
+        }
+
+        function closeModal() { document.getElementById('photoModal').style.display = 'none'; }
+
+        window.onclick = function(e) { if (e.target.classList.contains('modal')) closeModal(); }
+    </script>
+</body>
+</html>
