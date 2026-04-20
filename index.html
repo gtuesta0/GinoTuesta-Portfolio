@@ -8,6 +8,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
+        /* Marca de agua para el Modal */
+        .watermark {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.45); /* Blanco difuminado */
+            font-family: var(--font-main);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            pointer-events: none;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+            z-index: 2010;
+            text-transform: uppercase;
+        }
         :root {
             --bg-color: #FFFFFF;
             --text-color: #0A192F;
@@ -127,10 +141,15 @@
         <div class="photo-grid" id="photo-grid"></div>
     </section>
 
-    <div id="photoModal" class="modal">
+<div id="photoModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeModal()">&times;</span>
-            <img id="modal-img" class="modal-img" src="">
+            
+            <div style="position: relative; display: inline-block; max-width: 100%;">
+                <img id="modal-img" class="modal-img" src="">
+                <div class="watermark">© Gino Tuesta</div>
+            </div>
+            
             <p id="modal-caption" class="modal-caption"></p>
         </div>
     </div>
