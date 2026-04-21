@@ -79,10 +79,34 @@
         .rights-box { padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; opacity: 0.5; letter-spacing: 1px; }
 
         @media (max-width: 768px) {
-            .gallery-grid, .photo-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.8rem; }
-            .work-intro-section { flex-direction: column; text-align: center; }
-        }
+    /* Mantenemos lo que ya tenías */
+    .gallery-grid, .photo-grid { grid-template-columns: 1fr; }
+    .work-intro-section { flex-direction: column; text-align: center; }
+
+    /* --- TUS NUEVOS AJUSTES --- */
+    
+    /* El logo y header: más espacio y centrado */
+    header {
+        padding: 15px 20px !important;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* El título: bajamos a 2.4rem para que entre bien la frase larga en inglés */
+    .hero h1 { 
+        font-size: 2.4rem !important; 
+        line-height: 1.1 !important;
+        padding: 0 10px;
+    }
+
+    /* El subtítulo: que no se vea gigante */
+    .hero p {
+        font-size: 0.65rem !important;
+        letter-spacing: 3px !important;
+        margin-bottom: 10px !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -101,7 +125,7 @@
     <main id="home-view">
         <section class="hero">
             <div class="hero-content">
-                <p>Storytelling & Conservationy</p>
+                <p>Storytelling & Conservation</p>
                 <h1>Amazonian Narratives</h1>
             </div>
         </section>
